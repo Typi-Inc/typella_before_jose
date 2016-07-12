@@ -1,5 +1,5 @@
-defmodule Typi.ErrorView do
-  use Typi.Web, :view
+defmodule Auth.ErrorView do
+  use Auth.Web, :view
 
   def render("404.json", _assigns) do
     %{errors: %{detail: "Page not found"}}

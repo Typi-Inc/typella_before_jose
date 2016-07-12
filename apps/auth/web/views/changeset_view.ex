@@ -1,11 +1,11 @@
-defmodule Typi.ChangesetView do
-  use Typi.Web, :view
+defmodule Auth.ChangesetView do
+  use Auth.Web, :view
 
   @doc """
   Traverses and translates changeset errors.
 
   See `Ecto.Changeset.traverse_errors/2` and
-  `Typi.ErrorHelpers.translate_error/1` for more details.
+  `Auth.ErrorHelpers.translate_error/1` for more details.
   """
   def translate_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, &translate_error/1)

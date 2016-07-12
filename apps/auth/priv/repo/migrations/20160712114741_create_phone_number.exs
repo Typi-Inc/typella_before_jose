@@ -15,6 +15,6 @@ defmodule Auth.Repo.Migrations.CreatePhoneNumber do
     end
     create index(:phone_numbers, [:contact_id])
     create index(:phone_numbers, [:account_id])
-    create unique_index(:phones, [:country_code, :digits])
+    create unique_index(:phone_numbers, [:country_code, :digits])
   end
 end

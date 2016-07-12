@@ -1,4 +1,4 @@
-defmodule Typi.ErrorHelpers do
+defmodule Auth.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -21,9 +21,9 @@ defmodule Typi.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(Typi.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(Auth.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(Typi.Gettext, "errors", msg, opts)
+      Gettext.dgettext(Auth.Gettext, "errors", msg, opts)
     end
   end
 end

@@ -13,6 +13,6 @@ defmodule Auth.Repo.Migrations.CreateEmailAddress do
     end
     create index(:email_addresses, [:contact_id])
     create index(:email_addresses, [:account_id])
-    create unique_index(:emails, [:value])
+    create unique_index(:email_addresses, [:value])
   end
 end
