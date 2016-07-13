@@ -5,10 +5,10 @@ defmodule Auth.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Auth do
+  scope "/api", Auth do
     pipe_through :api
 
     post "/register", RegistrationController, :create
-    post "/verify", AccountController, :create
+    # post "/verify", AccountController, :create
   end
 end

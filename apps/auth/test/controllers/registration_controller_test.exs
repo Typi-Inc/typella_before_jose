@@ -10,15 +10,10 @@ defmodule Auth.RegistrationControllerTest do
   end
 
   test "/register creates new registration", %{conn: conn} do
-    # conn = post conn, "/register", registration: @register_attrs
-    IO.inspect conn
-    conn =
-      conn
-      |> put_req_header("method", "post")
-      |> Auth.Router.call(conn, @valid_attrs)
+    conn = post conn, "/register", registration: @register_attrs
     assert json_response(conn, 200)
     assert [registration] = Repo.all from r in Registration,
       where: r.country_code == ^@valid_attrs.country_code
-        and r.number == ^@valid_attrs.number and r.uuid == ^@valid_attrs.uuid
+        and r.digits == ^@valid_attrs.number and r.digits == ^@valid_attrs.uuid
   end
 end

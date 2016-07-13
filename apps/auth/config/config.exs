@@ -9,6 +9,14 @@ use Mix.Config
 config :auth,
   ecto_repos: [Auth.Repo]
 
+# Configures the endpoint
+config :auth, Auth.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "bidqkuC8Euucq2CFgHU7BKFcaXb0kQSRj0yFuomyd3G8JrLO7nWDBAZLFj4nO7PD",
+  render_errors: [view: Auth.ErrorView, accepts: ~w(json)],
+  pubsub: [name: Auth.PubSub,
+           adapter: Phoenix.PubSub.PG2]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
