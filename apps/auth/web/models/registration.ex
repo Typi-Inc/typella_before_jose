@@ -17,5 +17,6 @@ defmodule Auth.Registration do
     struct
     |> cast(params, [:country_code, :digits, :region, :device_id])
     |> validate_required([:country_code, :digits, :region, :device_id])
+    |> Auth.PhoneNumber.validate_phone_number
   end
 end

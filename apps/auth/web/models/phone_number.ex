@@ -13,12 +13,34 @@ defmodule Auth.PhoneNumber do
     timestamps()
   end
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:country_code, :digits, :identifier, :region, :label])
-    |> validate_required([:country_code, :digits, :identifier, :region, :label])
+  def validate_phone_number(changeset) do
+    if changeset.valid? do
+      changeset
+      |> validate_length(:region, min: 2, max: 3)
+      |> validate_country_code_and_number
+    else
+      changeset
+    end
   end
+
+  defp validate_country_code_and_number(changeset) do
+    with \
+      %Ecto.Changeset{
+        valid?: true,
+        changes: %{
+          country_code: country_code,
+          digits: digits,
+          region: region
+        }
+      } <- changeset,
+      {:ok, phone_number} <- ExPhoneNumber.parse("#{country_code}#{digits}", region),
+      true <- ExPhoneNumber.is_valid_number?(phone_number)
+    do
+      changeset
+    else
+      %Ecto.Changeset{valid?: false} -> changeset
+      _ -> add_error(changeset, :number, "invalid phone number")
+    end
+  end
+
 end

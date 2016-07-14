@@ -4,10 +4,10 @@ defmodule Auth.RegistrationControllerTest do
 
   alias Auth.Registration
   @valid_attrs %{
-    country_code: "some content",
-    device_id: "some content",
-    digits: "some content",
-    region: "some content"
+    country_code: "+7",
+    device_id: Ecto.UUID.generate,
+    digits: "7471113457",
+    region: "KZ"
   }
   @invalid_attrs %{}
 
@@ -31,5 +31,11 @@ defmodule Auth.RegistrationControllerTest do
     assert [_registration] = Repo.all from r in Registration,
       where: r.country_code == ^existing_registration.country_code
         and r.digits == ^existing_registration.digits and r.device_id == ^existing_registration.device_id
+  end
+
+  test "/register sends error if country_code is not of appropriate format", %{conn: conn} do
+    conn = post conn, registration_path(conn, :create),
+      registration: Map.put(@valid_attrs, "country_code", "123123123")
+    assert json_response(conn, 422) == %{"errors" => %{"registration" => ["invalid input"]}}
   end
 end

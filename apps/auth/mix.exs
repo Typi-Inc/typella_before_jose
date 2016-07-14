@@ -52,6 +52,7 @@ defmodule Auth.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
+      {:ex_phone_number, git: "https://github.com/socialpaymentsbv/ex_phone_number", branch: "develop"},
       {:ex_machina, "~> 1.0", only: :test}
     ]
   end
