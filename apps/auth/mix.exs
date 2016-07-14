@@ -28,11 +28,13 @@ defmodule Auth.Mixfile do
       applications: [
         :phoenix,
         :phoenix_pubsub,
-        :cowboy,
         :logger,
         :gettext,
         :phoenix_ecto,
-        :postgrex
+        :postgrex,
+        :pot,
+        :ex_twilio,
+        :ex_phone_number
       ]
     ]
   end
@@ -51,7 +53,8 @@ defmodule Auth.Mixfile do
       {:phoenix_ecto, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
+      {:pot, git: "https://github.com/yuce/pot.git"},
+      {:ex_twilio, "~> 0.1.9"},
       {:ex_phone_number, git: "https://github.com/socialpaymentsbv/ex_phone_number", branch: "develop"},
       {:ex_machina, "~> 1.0", only: :test}
     ]

@@ -18,5 +18,6 @@ defmodule Auth.Registration do
     |> cast(params, [:country_code, :digits, :region, :device_id])
     |> validate_required([:country_code, :digits, :region, :device_id])
     |> Auth.PhoneNumber.validate_phone_number
+    |> Auth.Device.validate_device_id
   end
 end
