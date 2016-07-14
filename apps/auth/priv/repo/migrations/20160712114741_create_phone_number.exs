@@ -13,6 +13,7 @@ defmodule Auth.Repo.Migrations.CreatePhoneNumber do
 
       timestamps()
     end
+    
     create index(:phone_numbers, [:contact_id])
     create index(:phone_numbers, [:account_id])
     create unique_index(:phone_numbers, [:country_code, :digits])

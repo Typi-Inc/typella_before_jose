@@ -13,6 +13,7 @@ defmodule Auth.Repo.Migrations.CreateContact do
 
       timestamps()
     end
+    
     create index(:contacts, [:account_id])
   end
 end

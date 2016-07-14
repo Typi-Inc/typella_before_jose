@@ -1,7 +1,7 @@
 defmodule Auth.AccountTest do
   use Auth.ModelCase
 
-  alias Auth.Account
+  # alias Auth.Account
 
   @valid_attrs %{}
   @invalid_attrs %{}

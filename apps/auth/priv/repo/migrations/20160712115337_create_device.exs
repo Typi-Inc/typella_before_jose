@@ -20,6 +20,7 @@ defmodule Auth.Repo.Migrations.CreateDevice do
 
       timestamps()
     end
+    
     create index(:devices, [:account_id])
     create unique_index(:devices, [:device_id])
   end

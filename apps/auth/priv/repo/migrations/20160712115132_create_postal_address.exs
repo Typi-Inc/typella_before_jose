@@ -15,6 +15,7 @@ defmodule Auth.Repo.Migrations.CreatePostalAddress do
 
       timestamps()
     end
+    
     create index(:postal_addresses, [:contact_id])
     create index(:postal_addresses, [:account_id])
     create unique_index(:postal_addresses, [:country, :postal_code, :street])

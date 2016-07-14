@@ -11,6 +11,7 @@ defmodule Auth.Repo.Migrations.CreateBirthday do
 
       timestamps()
     end
+    
     create index(:birthdays, [:contact_id])
     create index(:birthdays, [:account_id])
     create unique_index(:birthdays, [:day, :month, :year])

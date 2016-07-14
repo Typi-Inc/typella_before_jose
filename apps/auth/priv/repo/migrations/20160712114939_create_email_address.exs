@@ -11,6 +11,7 @@ defmodule Auth.Repo.Migrations.CreateEmailAddress do
 
       timestamps()
     end
+    
     create index(:email_addresses, [:contact_id])
     create index(:email_addresses, [:account_id])
     create unique_index(:email_addresses, [:value])
