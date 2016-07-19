@@ -5,7 +5,7 @@ defmodule Auth.Registration do
     field :country_code, :string
     field :digits, :string
     field :region, :string
-    field :device_id, :string
+    field :unique_id, :string
 
     timestamps()
   end
@@ -15,9 +15,9 @@ defmodule Auth.Registration do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:country_code, :digits, :region, :device_id])
-    |> validate_required([:country_code, :digits, :region, :device_id])
+    |> cast(params, [:country_code, :digits, :region, :unique_id])
+    |> validate_required([:country_code, :digits, :region, :unique_id])
     |> Auth.PhoneNumber.validate_phone_number
-    |> Auth.Device.validate_device_id
+    |> Auth.Device.validate_unique_id
   end
 end

@@ -26,6 +26,7 @@ defmodule Auth.ConnCase do
       import Ecto.Query
 
       import Auth.Router.Helpers
+      import Auth.Factory
 
       # The default endpoint for testing
       @endpoint Auth.Endpoint
@@ -39,6 +40,10 @@ defmodule Auth.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Auth.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    conn =
+      Phoenix.ConnTest.build_conn()
+      |> Plug.Conn.put_req_header("accept", "application/json")
+
+    {:ok, conn: conn}
   end
 end

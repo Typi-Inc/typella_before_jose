@@ -11,7 +11,7 @@ defmodule Auth.Contact do
     has_one :birthday, Auth.Birthday
     has_many :email_addresses, Auth.EmailAddress
     has_many :phone_numbers, Auth.PhoneNumber
-    has_many :postal_addresses, Auth.PhoneAddress
+    has_many :postal_addresses, Auth.PostalAddress
     belongs_to :account, Auth.Account
 
     timestamps()

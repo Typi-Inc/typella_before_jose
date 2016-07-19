@@ -24,6 +24,7 @@ defmodule Auth.DeviceView do
       device_locale: device.device_locale,
       device_country: device.device_country,
       instance_id: device.instance_id,
+      unique_id: device.unique_id,
       account_id: device.account_id}
   end
 end

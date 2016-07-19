@@ -1,25 +1,21 @@
 defmodule Auth.RegistrationControllerTest do
   use Auth.ConnCase, async: true
-  import Auth.Factory
 
   alias Auth.Registration
+
   @valid_attrs %{
     country_code: "+7",
-    device_id: Ecto.UUID.generate,
+    unique_id: Ecto.UUID.generate,
     digits: "7471113457",
     region: "KZ"
   }
-
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  end
 
   test "/register creates new registration", %{conn: conn} do
     conn = post conn, registration_path(conn, :create), registration: @valid_attrs
     assert json_response(conn, 200)
     assert [_registration] = Repo.all from r in Registration,
       where: r.country_code == ^@valid_attrs.country_code
-        and r.digits == ^@valid_attrs.digits and r.device_id == ^@valid_attrs.device_id
+        and r.digits == ^@valid_attrs.digits and r.unique_id == ^@valid_attrs.unique_id
   end
 
   test "/register updates already existing registration", %{conn: conn} do
@@ -29,10 +25,10 @@ defmodule Auth.RegistrationControllerTest do
     assert json_response(conn, 200)
     assert [_registration] = Repo.all from r in Registration,
       where: r.country_code == ^existing_registration.country_code
-        and r.digits == ^existing_registration.digits and r.device_id == ^existing_registration.device_id
+        and r.digits == ^existing_registration.digits and r.unique_id == ^existing_registration.unique_id
   end
 
-  test "/register sends sms via twilio if params are valid", %{conn: conn} do
+  # test "/register sends sms via twilio if params are valid", %{conn: conn} do
     # with_mock Auth.ExTwilio.Message, [create: fn([to: to, from: _from, body: body]) ->
     #   assert to == @valid_attrs.country_code <> @valid_attrs.digits
     # end] do
@@ -41,7 +37,7 @@ defmodule Auth.RegistrationControllerTest do
     #   # TODO does not work for some reason
     #   assert called Auth.ExTwilio.Message.create
     # end
-  end
+  # end
 
   # Errors section
   test "/register sends error if country_code is not of appropriate format", %{conn: conn} do
@@ -64,9 +60,9 @@ defmodule Auth.RegistrationControllerTest do
     refute Repo.get_by(Registration, @valid_attrs)
   end
 
-  test "/register sends error if device_id is not of appropriate format", %{conn: conn} do
+  test "/register sends error if unique_id is not of appropriate format", %{conn: conn} do
     conn = post conn, registration_path(conn, :create),
-      registration: Map.put(@valid_attrs, "device_id", "ADSD")
+      registration: Map.put(@valid_attrs, "unique_id", "ADSD")
     assert json_response(conn, 422) == %{"errors" => %{"registration" => ["invalid input"]}}
     refute Repo.get_by(Registration, @valid_attrs)
   end

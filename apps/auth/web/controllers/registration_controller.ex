@@ -3,6 +3,7 @@ defmodule Auth.RegistrationController do
   require Logger
 
   alias Auth.Registration
+
   @one_time_password_config Application.get_env(:auth, :pot)
   @twilio_api Application.get_env(:auth, :twilio_api)
   @twilio_phone_number Application.get_env(:ex_twilio, :phone_number)
@@ -41,7 +42,7 @@ defmodule Auth.RegistrationController do
   defp insert_if_needed(changeset) do
     changeset
     |> Ecto.Changeset.apply_changes
-    |> Map.take([:country_code, :digits, :device_id])
+    |> Map.take([:country_code, :digits, :unique_id])
     |> get_registration
     |> case do
       nil ->
@@ -52,9 +53,11 @@ defmodule Auth.RegistrationController do
   end
 
   defp send_one_time_password(%{"country_code" => country_code, "digits" => digits}) do
-    [secret: secret,
+    [
+      secret: secret,
       expiration: expiration,
-      token_length: token_length] = @one_time_password_config
+      token_length: token_length
+    ] = @one_time_password_config
 
     token = :pot.totp(secret, [
       token_length: token_length,

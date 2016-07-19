@@ -16,12 +16,16 @@ defmodule Auth.Repo.Migrations.CreateDevice do
       add :device_locale, :string
       add :device_country, :string
       add :instance_id, :string
+      add :unique_id, :string
       add :account_id, references(:accounts, on_delete: :nothing)
 
       timestamps()
     end
-    
+
     create index(:devices, [:account_id])
-    create unique_index(:devices, [:device_id])
+    # TODO decide what to do here
+    create unique_index(:devices, [:unique_id, :instance_id])
+    # https://github.com/rebeccahughes/react-native-device-info/issues/67
+    # create unique_index(:devices, [:instance_id])
   end
 end

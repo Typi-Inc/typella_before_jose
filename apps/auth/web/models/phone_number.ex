@@ -7,10 +7,18 @@ defmodule Auth.PhoneNumber do
     field :identifier, :string
     field :region, :string
     field :label, :string
-    belongs_to :contact, Auth.Contact
     belongs_to :account, Auth.Account
+    belongs_to :contact, Auth.Contact
 
     timestamps()
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:country_code, :digits, :identifier, :region, :label, :account_id, :contact_id])
+    |> validate_required([:country_code, :digits])
+    |> validate_phone_number
+    |> unique_constraint(:number, name: :phone_numbers_country_code_digits_index)
   end
 
   def validate_phone_number(changeset) do

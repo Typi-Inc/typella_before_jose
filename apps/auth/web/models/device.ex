@@ -15,13 +15,27 @@ defmodule Auth.Device do
     field :device_locale, :string
     field :device_country, :string
     field :instance_id, :string
+    field :unique_id, :string
     belongs_to :account, Auth.Account
 
     timestamps()
   end
 
-  def validate_device_id(changeset) do
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:manufacturer, :model, :device_id,
+      :system_name, :system_version, :bundle_id, :version,
+      :readable_version, :device_name, :user_agent, :device_locale,
+      :device_country, :instance_id, :unique_id, :account_id])
+    |> validate_required([:unique_id])
+    |> validate_unique_id
+    # TODO related to https://github.com/rebeccahughes/react-native-device-info/issues/67
+    |> unique_constraint(:unique_id, name: :devices_instance_id_unique_id_index)
+    |> assoc_constraint(:account)
+  end
+
+  def validate_unique_id(changeset) do
     changeset
-    |> validate_format(:device_id, ~r/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/)
+    |> validate_format(:unique_id, ~r/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/)
   end
 end

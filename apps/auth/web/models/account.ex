@@ -7,17 +7,16 @@ defmodule Auth.Account do
     has_many :devices, Auth.Device
     has_many :email_addresses, Auth.EmailAddress
     has_many :phone_numbers, Auth.PhoneNumber
-    has_many :postal_addresses, Auth.PhoneAddress
+    has_many :postal_addresses, Auth.PostalAddress
 
     timestamps()
   end
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [])
     |> validate_required([])
+    |> cast_assoc(:phone_numbers)
+    |> cast_assoc(:devices)
   end
 end

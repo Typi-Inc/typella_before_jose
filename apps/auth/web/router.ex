@@ -9,6 +9,6 @@ defmodule Auth.Router do
     pipe_through :api
 
     post "/register", RegistrationController, :create
-    # post "/verify", AccountController, :create
+    post "/verify", AccountController, :create
   end
 end

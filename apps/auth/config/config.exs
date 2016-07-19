@@ -24,7 +24,7 @@ config :logger, :console,
 
 config :auth, :pot,
   secret: "MFRGGZDFMZTWQ2LK",
-  expiration: 1,
+  expiration: 3600,
   token_length: 6
 
 config :auth, :twilio_api, Auth.ExTwilio
