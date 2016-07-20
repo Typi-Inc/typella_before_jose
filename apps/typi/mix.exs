@@ -34,7 +34,8 @@ defmodule Typi.Mixfile do
         :gettext,
         :phoenix_ecto,
         :postgrex,
-        :auth
+        :auth,
+        :guardian
       ]
     ]
   end
@@ -56,7 +57,8 @@ defmodule Typi.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:auth, in_umbrella: true}
+      {:auth, in_umbrella: true},
+      {:guardian, "~> 0.11.1"}
     ]
   end
 

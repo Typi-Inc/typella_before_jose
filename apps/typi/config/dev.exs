@@ -41,3 +41,5 @@ config :typi, Typi.Repo,
   database: "typi_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :auth, Auth, tokenize: Typi.Tokenizer

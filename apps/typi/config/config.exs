@@ -20,7 +20,23 @@ config :typi, Typi.Endpoint,
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:request_id] 
+
+config :guardian, Guardian,
+  allowed_algos: ["ES512"],
+  issuer: "Typi",
+  verify_issuer: true,
+  ttl: { 36530, :days },
+  secret_key: %{
+    "alg" => "ES512",
+    "crv" => "P-521",
+    "d" => "AYGjuosjZcjJxQvsSzeX6FQPOGeIXpAwcQJ81iEukfdGX0ipMzgAJ5piep_muegLE1b8L5V50sydWyoWysTBuJSV",
+    "kty" => "EC",
+    "use" => "sig",
+    "x" => "AL3ihPKSymhrCk4Gde0iOr4ZqfXVLXwRV7nATk_KQDMez_uste1YoYpb4yDudE1PXhIMOmb1rE3lQ0469NGHocea",
+    "y" => "AX1Kls2KK6GAtGnD9KoNYEvdcba212zMTsGUj39KdmyyCWvXxJUGA1OUhuuGKXM5RyjFiKBqdflLW0RY1wW72g19"
+  },
+  serializer: Typi.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

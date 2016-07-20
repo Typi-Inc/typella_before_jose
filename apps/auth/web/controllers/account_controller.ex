@@ -5,6 +5,7 @@ defmodule Auth.AccountController do
   alias Auth.{Account, Device, PhoneNumber, Registration}
 
   @one_time_password_config Application.get_env(:auth, :pot)
+  @tokenizer Application.get_env(:auth, Auth) |> Keyword.get(:tokenizer)
 
   plug :scrub_params, "account" when action in [:create]
 
@@ -22,20 +23,21 @@ defmodule Auth.AccountController do
     }
   )
   do
+    IO.inspect @tokenizer.__info__(:functions)
     with \
       :ok <- validate_token(token),
       {:ok, registration} <- get_registration(country_code, unique_id, digits),
       {:ok, account} <- update_or_insert_account(account_params),
+      {:ok, jwt, _full_claims} <- @tokenizer.encode_and_sign(account),
       {:ok, _registration} <- Repo.delete(registration)
     do
       conn
       |> put_status(:created)
-      |> json(%{jwt: "jwt"})
+      |> json(%{jwt: jwt})
     else
       {:error, reasons} ->
         Logger.warn """
-          There was a problem when
-          registration a new account for the following reasons: #{inspect reasons}
+          There was a problem when registering a new account for the following reasons: #{inspect reasons}
         """
         conn
         |> put_status(:unprocessable_entity)
@@ -124,8 +126,8 @@ defmodule Auth.AccountController do
 
   defp has_phone_number(account, account_params) do
     contains?(account.phone_numbers, fn phone_number ->
-      phone_number.country_code == account_params["verification"]["country_code"]
-      phone_number.digits == account_params["verification"]["digits"]
+      phone_number.country_code == account_params["verification"]["country_code"] &&
+        phone_number.digits == account_params["verification"]["digits"]
     end)
 
   end

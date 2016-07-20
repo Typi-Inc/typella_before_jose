@@ -2,7 +2,7 @@ defmodule Typi.User do
   use Typi.Web, :model
 
   schema "users" do
-
+    belongs_to :account, Auth.Account
     timestamps()
   end
 

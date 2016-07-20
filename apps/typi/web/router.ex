@@ -22,8 +22,7 @@ defmodule Typi.Router do
   scope "/auth", Auth do
     pipe_through :api
 
-    post "/register", AccountController, :register
-    post "/test", AccountController, :test
-    post "/verify", VerifyController, :verify
+    post "/register", RegistrationController, :create
+    post "/verify", AccountController, :create
   end
 end

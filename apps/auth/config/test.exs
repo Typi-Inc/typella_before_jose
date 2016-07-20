@@ -17,3 +17,5 @@ config :auth, Auth.Repo,
   database: "typi_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :auth, Auth, tokenizer: Auth.Tokenizer

@@ -38,8 +38,10 @@ defmodule Auth.AccountControllerTest do
     ]
   }
   @one_time_password_config Application.get_env(:auth, :pot)
+  @tokenizer Application.get_env(:auth, Auth) |> Keyword.get(:tokenizer)
 
   test "/verify responds with error if registration is not found", %{conn: conn} do
+    @tokenizer.encode_and_sign(%Account{})
     conn = post conn, account_path(conn, :create), account: valid_attrs
     assert json_response(conn, 422) == %{"errors" => %{"verification" => ["bad input"]}}
   end
